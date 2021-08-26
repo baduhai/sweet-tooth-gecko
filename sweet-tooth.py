@@ -18,7 +18,7 @@ driver.get("https://www.coingecko.com/account/candy?locale=en")
 
 if "TIMEOUT" in os.environ:
     timeout = int(os.environ.get("TIMEOUT"))
-    print("Set page timout to " + os.environ.get("TIMEOUT") + " seconds.")
+    print("Set page timeout to " + os.environ.get("TIMEOUT") + " seconds.")
 else:
     timeout = 5
     print("Timeout variable not set, using default(5 seconds).")
@@ -44,6 +44,7 @@ except BaseException:
     message = "Error: Could not access https://www.coingecko.com/account/candy?locale=en."
     print(message)
     gotify_notify(message)
+    driver.quit()
     exit(1001)
 
 try:
@@ -55,6 +56,7 @@ except BaseException:
     message = "Error: Could not login."
     print(message)
     gotify_notify(message)
+    driver.quit()
     exit(1002)
 
 try:
@@ -64,6 +66,7 @@ except TimeoutException:
     message = "Error: Loading took too long."
     print(message)
     gotify_notify(message)
+    driver.quit()
     exit()
 
 # try:
@@ -77,16 +80,19 @@ try:
     message = "Cadies successfully collected."
     print(message)
     gotify_notify(message)
+    driver.quit()
 except NoSuchElementException:
     driver.find_element_by_css_selector("div.btn.bg-secondary.col-12.text-sm.text-white.collect-candy-button")
     message = "No candies available for collection."
     print(message)
     gotify_notify(message)
+    driver.quit()
     exit()
 except:
     message = "Could not find button to get new candy."
     print(message)
     gotify_notify(message)
+    driver.quit()
     exit(1002)
 
 # Couldn't figure out how to get new balance.
